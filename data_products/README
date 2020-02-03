@@ -1,0 +1,35 @@
+qso_10,  qso_100 , qso_1000  1.0SFr :  light curves simulated with N points, N=10,100,1000 ,  where SFr is derived using Paper2 relations:
+
+lambdaOBSr = 6204 # angstroms 
+qso['lambdaRFr'] = lambdaOBSr / (1+qso['redshift'])
+
+log10tau = 2.597 + 0.17 * np.log10(qso['lambdaRFr'] / 4000) +\
+  0.035 * (qso['Mi']+23) + 0.141*np.log10(qso['MBH'] / 1e9)
+qso['tauRF_r'] = np.power(10,log10tau)
+
+qso['tauOBS_r'] = qso['tauRF_r'] * (1+qso['redshift'])
+
+log10sf = -0.476 -0.479 * np.log10(qso['lambdaRFr'] / 4000) + \
+0.118 * (qso['Mi']+23) + 0.118*np.log10(qso['MBH'] / 1e9)
+qso['sf_r'] = np.power(10,log10sf)
+
+
+We use LSST magnitude-dependent error model:
+
+    sigma_sys = 0.005
+    gamma = 0.039 
+    m5 = 24.7
+    x = np.power(10,0.4 * (m-m5))
+    sigma_rand = np.sqrt(  (0.04-gamma) * x + gamma * x*x ) 
+    sigma = np.sqrt(sigma_sys**2.0 + sigma_rand**2.0)
+
+
+All light curves are 20 years long, to simulate span between earliest SDSS (c.1998), and latest HSC (c.2018) epochs. 
+
+Seed timescales tau are also derived using paper2 relations above - they got converted from rest-frame to observer's frame.  
+
+Seed magnitudes are LSST catalog r-band mag. 
+
+
+The   i < 24 subset of LSST catalog with information for the 69k  simulated quasars, together with MBH,Mi-derived tauRF, tauOBS, SFr, and lightcurve-based first magnitude (rmag0yr) , last magnitude (rmag20yr) , and difference  dmag  = rmag20yr  - rmag0yr  is stored in 
+../catalogs/qso_lsst_catalog_i_lt_24_Npts_1.0_SFr.txt , where N=10,100,1000  points per light curve  
