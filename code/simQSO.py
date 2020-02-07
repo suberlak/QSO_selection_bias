@@ -23,6 +23,12 @@ parser.add_argument("--sampleAugmentationFactor", type=str, default='10')
 
 args = parser.parse_args()
 
+print('Using the following settings: ')
+print('- input catalog cut at i < %.2f'%args.magCut)
+print('- light curves with %d'%args.Npts)
+print('- Paper2-derived SFinf increased by a factor of %s'%args.SFinfFactor)
+print('- the quasar sample increased by a factor of %s, \n'%args.sampleAugmentationFactor)
+print('  by simulating that number of DRW light curves for each value of seed r-mag, tau, SFinf')
 
 # read in the catalog 
 print('Reading in the catalog ')
