@@ -16,9 +16,9 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--magCut", type=float, default=24.5)
-parser.add_argument("--Npts", type=int, default=1000)
-parser.add_argument("--SFinfFactor", type=str, default='1.0')
+parser.add_argument("--magCut", type=float, default=24)
+parser.add_argument("--Npts", type=int, default=1000) 
+parser.add_argument("--fsf", type=float, default=1.0) # SFinf increase factor 
 parser.add_argument("--sampleAugmentationFactor", type=str, default='10')
 
 args = parser.parse_args()
@@ -26,7 +26,7 @@ args = parser.parse_args()
 print('Using the following settings: ')
 print('- input catalog cut at i < %.2f'%args.magCut)
 print('- light curves with %d'%args.Npts)
-print('- Paper2-derived SFinf increased by a factor of %s'%args.SFinfFactor)
+print('- Paper2-derived SFinf increased by a factor of %s'%args.fsf)
 print('- the quasar sample increased by a factor of %s, \n'%args.sampleAugmentationFactor)
 print('  by simulating that number of DRW light curves for each value of seed r-mag, tau, SFinf')
 
@@ -94,7 +94,7 @@ Npts = args.Npts
 t = np.linspace(0, 20*365, Npts) 
 
 
-fSfinf = args.SFinfFactor 
+fSfinf = str(args.fsf)
 faugmentSample = args.sampleAugmentationFactor
 
 name = str(Npts)+'pts_'+fSfinf+'SFr' + faugmentSample+'x-increase_SDSS_err'
